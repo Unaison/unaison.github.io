@@ -23,47 +23,34 @@
   }[lang];
 
   // Intro: la lancha cruza de izquierda a derecha y el nombre aparece en su estela.
-  // Las dos animaciones comparten duración y curva, así que el borde del nombre
-  // avanza pegado a la lancha. Todo debe terminar antes de que suba el telón (CSS --intro).
+  // Se anima un solo grupo (lancha + cortina azul) y solo con transform, que va por la
+  // tarjeta gráfica: fluido aunque la página siga cargando. Debe llegar antes de que el
+  // logo se desvanezca (CSS: --intro menos 300 ms).
   (function () {
     var intro = document.querySelector(".intro");
     if (!intro || document.documentElement.classList.contains("no-intro")) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    var name = intro.querySelector(".intro-name");
-    var boat = intro.querySelector(".intro-logo img");
-    if (!boat.animate) { name.style.clipPath = "none"; boat.style.transform = "none"; return; }
+    var boat = intro.querySelector(".intro-boat");
+    if (!boat.animate) { boat.style.transform = "none"; return; }
 
     var started = false;
     function run() {
       if (started) return;
       started = true;
-      // Medir la posición final de la lancha sin el desplazamiento inicial
+      // Posición final de la lancha, sin el desplazamiento inicial
       boat.style.transform = "none";
       var b = boat.getBoundingClientRect();
-      var n = name.getBoundingClientRect();
       boat.style.transform = "";
 
-      var travel = b.right + 40;                // distancia hasta quedar fuera por la izquierda
-      var edge = b.left + b.width * 0.3;        // punto de la lancha que va «escribiendo» el nombre
-      var clamp = function (v) { return Math.min(Math.max(v, 0), 1); };
-      var e1 = clamp(1 - (edge - n.left) / travel);
-      var e2 = clamp(1 - (edge - n.right) / travel);
-      var hidden = "inset(-25% " + n.width + "px -25% 0px)";
-      var shown = "inset(-25% 0px -25% 0px)";
-
-      // Empieza a los ~200 ms de cargar y llega antes de que el logo se desvanezca (~1650 ms)
+      var travel = b.right + 60;                // hasta quedar fuera por la izquierda
       var now = performance.now();
-      var delay = Math.max(0, 200 - now);
-      var duration = Math.min(1200, Math.max(500, 1600 - now - delay));
-      var timing = { duration: duration, delay: delay, easing: "cubic-bezier(.33, 0, .2, 1)", fill: "both" };
+      var delay = Math.max(0, 200 - now);       // arranca hacia los 200 ms de cargar
+      var duration = Math.min(1500, Math.max(700, 1850 - now - delay));
 
-      boat.animate([{ transform: "translateX(" + -travel + "px)" }, { transform: "translateX(0)" }], timing);
-      name.animate([
-        { clipPath: hidden, offset: 0 },
-        { clipPath: hidden, offset: e1 },
-        { clipPath: shown, offset: Math.max(e2, e1) },
-        { clipPath: shown, offset: 1 }
-      ], timing);
+      boat.animate(
+        [{ transform: "translate3d(" + -travel + "px, 0, 0)" }, { transform: "translate3d(0, 0, 0)" }],
+        { duration: duration, delay: delay, easing: "cubic-bezier(.3, 0, .15, 1)", fill: "both" }
+      );
     }
     // Esperar a la fuente del logo (para medir bien el nombre), como mucho 300 ms
     var font = document.fonts && document.fonts.load ? document.fonts.load("1em Gloock") : null;

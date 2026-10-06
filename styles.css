@@ -406,7 +406,7 @@ mark { background: none; color: var(--ink); font-weight: 600; }
    Azul de marca. La lancha cruza de izquierda a derecha y el nombre aparece en su estela;
    después el bloque sube como un telón. El cruce lo calcula script.js (necesita medir el nombre).
    Solo la primera vez por sesión (clase .no-intro desde el <head>). */
-:root { --intro: 1900ms; }
+:root { --intro: 2200ms; }
 .no-intro { --intro: 0ms; }
 .no-intro .intro { display: none; }
 
@@ -414,27 +414,38 @@ mark { background: none; color: var(--ink); font-weight: 600; }
   position: fixed; inset: 0; z-index: 100;
   display: grid; place-items: center; overflow: hidden;
   background: var(--navy); pointer-events: none;
-  animation: introOut 700ms var(--ease-in-out) both var(--intro);
+  animation: introOut 1000ms cubic-bezier(.65, 0, .35, 1) both var(--intro);
+  will-change: transform;
 }
 .intro-logo {
   display: flex; align-items: center; gap: clamp(14px, 2vw, 24px);
-  animation: introLogoOut 250ms ease both calc(var(--intro) - 250ms);
+  animation: introLogoOut 300ms ease both calc(var(--intro) - 300ms);
 }
 .intro-name {
   font-family: var(--display); color: #fff; line-height: 1.1;
   font-size: clamp(2.2rem, 6vw, 4.2rem); white-space: nowrap;
 }
-/* La barca azul pasada a blanco */
-.intro-logo img { width: clamp(96px, 15vw, 230px); filter: brightness(0) invert(1); will-change: transform; }
+/* La lancha y su «cortina»: se mueven juntas (solo transform, va por la tarjeta gráfica).
+   La cortina es azul con el borde izquierdo difuminado y tapa el nombre que la lancha
+   aún no ha pasado; así el texto aparece en su estela, sin recortes en cada fotograma. */
+.intro-boat { position: relative; display: block; flex: none; will-change: transform; }
+.intro-cover {
+  position: absolute; top: -100vh; bottom: -100vh; left: 30%; width: 200vw;
+  background: linear-gradient(90deg, rgba(0, 6, 40, 0), var(--navy) 90px);
+}
+/* La barca azul pasada a blanco, por encima de la cortina */
+.intro-boat img { position: relative; display: block; width: clamp(96px, 15vw, 230px); filter: brightness(0) invert(1); }
 
-/* Estado inicial mientras llega el script: nombre oculto y lancha fuera de pantalla */
+/* Estado inicial mientras llega el script: lancha (y cortina) fuera por la izquierda */
 @media (prefers-reduced-motion: no-preference) {
-  .js .intro-name { clip-path: inset(-25% 100% -25% 0); }
-  .js .intro-logo img { transform: translateX(-120vw); }
+  .js .intro-boat { transform: translateX(-120vw); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro-cover { display: none; }
 }
 
 @keyframes introLogoOut {
-  to { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 0; transform: translateY(-10px); }
 }
 @keyframes introOut {
   to { transform: translateY(-100%); visibility: hidden; }
