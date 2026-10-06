@@ -403,34 +403,38 @@ mark { background: none; color: var(--ink); font-weight: 600; }
 @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
 
 /* ---------- Pantalla de entrada ----------
-   Azul de marca con el logo en blanco. Sube como un telón y deja paso al hero.
+   Azul de marca. La lancha cruza de izquierda a derecha y el nombre aparece en su estela;
+   después el bloque sube como un telón. El cruce lo calcula script.js (necesita medir el nombre).
    Solo la primera vez por sesión (clase .no-intro desde el <head>). */
-:root { --intro: 1400ms; }
+:root { --intro: 1900ms; }
 .no-intro { --intro: 0ms; }
 .no-intro .intro { display: none; }
 
 .intro {
   position: fixed; inset: 0; z-index: 100;
-  display: grid; place-items: center;
+  display: grid; place-items: center; overflow: hidden;
   background: var(--navy); pointer-events: none;
   animation: introOut 700ms var(--ease-in-out) both var(--intro);
 }
 .intro-logo {
   display: flex; align-items: center; gap: clamp(14px, 2vw, 24px);
-  animation: introLogo 1300ms var(--ease-out) both;
+  animation: introLogoOut 250ms ease both calc(var(--intro) - 250ms);
 }
 .intro-name {
-  font-family: var(--display); color: #fff; line-height: 1;
+  font-family: var(--display); color: #fff; line-height: 1.1;
   font-size: clamp(2.2rem, 6vw, 4.2rem); white-space: nowrap;
 }
 /* La barca azul pasada a blanco */
-.intro-logo img { width: clamp(96px, 15vw, 230px); filter: brightness(0) invert(1); }
+.intro-logo img { width: clamp(96px, 15vw, 230px); filter: brightness(0) invert(1); will-change: transform; }
 
-@keyframes introLogo {
-  0%   { opacity: 0; transform: translateY(12px); }
-  40%  { opacity: 1; transform: none; }
-  85%  { opacity: 1; transform: none; }
-  100% { opacity: 0; transform: translateY(-8px); }
+/* Estado inicial mientras llega el script: nombre oculto y lancha fuera de pantalla */
+@media (prefers-reduced-motion: no-preference) {
+  .js .intro-name { clip-path: inset(-25% 100% -25% 0); }
+  .js .intro-logo img { transform: translateX(-120vw); }
+}
+
+@keyframes introLogoOut {
+  to { opacity: 0; transform: translateY(-8px); }
 }
 @keyframes introOut {
   to { transform: translateY(-100%); visibility: hidden; }
