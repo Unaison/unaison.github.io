@@ -107,6 +107,23 @@
     });
   }
 
+  // Mapas de Google: pesan mucho, así que se cargan solo al acercarse a «Consultas»
+  // (el loading="lazy" del navegador los pide demasiado pronto, casi al entrar).
+  var maps = document.querySelectorAll(".map iframe[data-src]");
+  function loadMap(f) { if (!f.src) f.src = f.getAttribute("data-src"); }
+  if ("IntersectionObserver" in window) {
+    var mapIo = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        loadMap(en.target);
+        mapIo.unobserve(en.target);
+      });
+    }, { rootMargin: "600px 0px" });
+    maps.forEach(function (f) { mapIo.observe(f); });
+  } else {
+    maps.forEach(loadMap);
+  }
+
   // Enlaces de WhatsApp
   var waUrl = "https://wa.me/" + (cfg.whatsapp || "") +
     "?text=" + encodeURIComponent(T.wa || "");

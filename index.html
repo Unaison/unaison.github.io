@@ -14,11 +14,9 @@
   <link rel="icon" type="image/png" sizes="96x96" href="img/icons/favicon-96.png">
   <link rel="apple-touch-icon" href="img/icons/apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
-  <link rel="preload" as="image" href="img/ailen.jpg">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Gloock&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <link rel="preload" as="image" href="img/ailen.webp">
+  <link rel="preload" href="fonts/gloock-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="styles.css">
   <script>document.documentElement.classList.add("js");try{if(sessionStorage.getItem("intro")){document.documentElement.classList.add("no-intro")}else{sessionStorage.setItem("intro","1")}}catch(e){}</script>
 </head>
@@ -27,7 +25,7 @@
 <div class="intro" aria-hidden="true">
   <div class="intro-logo">
     <span class="intro-name">Ailen García</span>
-    <span class="intro-boat"><span class="intro-cover"></span><img src="img/barca-navy.png" alt="" width="756" height="153"></span>
+    <span class="intro-boat"><span class="intro-cover"></span><img src="img/barca-navy.webp" alt="" width="460" height="95"></span>
   </div>
 </div>
 
@@ -35,7 +33,7 @@
   <div class="wrap header-inner">
     <a href="#inicio" class="brand" aria-label="Ailen García, inicio">
       <span class="brand-name">Ailen García</span>
-      <img src="img/barca-navy.png" alt="" class="brand-boat" width="756" height="153">
+      <img src="img/barca-navy.webp" alt="" class="brand-boat" width="460" height="95">
     </a>
     <nav id="nav" class="nav">
       <a href="#sobre-mi">Sobre mí</a>
@@ -70,7 +68,7 @@
       </div>
       <figure class="hero-photo">
         <div class="hero-arch">
-          <img src="img/ailen.jpg" alt="Ailen García Lanchas, psicóloga" width="768" height="1024" fetchpriority="high">
+          <img src="img/ailen.webp" alt="Ailen García Lanchas, psicóloga" width="768" height="1024" fetchpriority="high">
         </div>
         <figcaption class="hero-in" style="--i:3">Ailen García Lanchas<span>Psicóloga General Sanitaria, nº col. GZ03490</span></figcaption>
       </figure>
@@ -100,11 +98,11 @@
         <div class="formacion">
           <h3>Formación</h3>
           <figure>
-            <div class="logo-plate"><img src="img/titulo-ehu.png" alt="Universidad del País Vasco (UPV/EHU)" loading="lazy" width="684" height="372"></div>
+            <div class="logo-plate"><img src="img/titulo-ehu.webp" alt="Universidad del País Vasco (UPV/EHU)" loading="lazy" width="440" height="241"></div>
             <figcaption>Máster en Psicología General Sanitaria<span>Universidad del País Vasco, UPV/EHU</span></figcaption>
           </figure>
           <figure>
-            <div class="logo-plate"><img src="img/titulo-avapsi.png" alt="Avapsi" loading="lazy" width="700" height="372"></div>
+            <div class="logo-plate"><img src="img/titulo-avapsi.webp" alt="Avapsi" loading="lazy" width="440" height="241"></div>
             <figcaption>Máster en Terapia de Pareja y Familia<span>Avapsi</span></figcaption>
           </figure>
         </div>
@@ -171,7 +169,7 @@
         <article class="place">
           <div class="map">
             <iframe title="Mapa consulta Errenteria" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-              src="https://maps.google.com/maps?q=Centro%20de%20nutrici%C3%B3n%20y%20psicolog%C3%ADa%20NutriGune%2C%20Pablo%20Iglesias%20Hiribidea%2C%2020100%20Errenteria&z=16&output=embed"></iframe>
+              data-src="https://maps.google.com/maps?q=Centro%20de%20nutrici%C3%B3n%20y%20psicolog%C3%ADa%20NutriGune%2C%20Pablo%20Iglesias%20Hiribidea%2C%2020100%20Errenteria&z=16&output=embed"></iframe>
           </div>
           <div class="place-body">
             <div>
@@ -185,7 +183,7 @@
         <article class="place">
           <div class="map">
             <iframe title="Mapa consulta Vitoria-Gasteiz" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
-              src="https://maps.google.com/maps?q=Hebra%20Psicolog%C3%ADa%2C%20Plaza%20Am%C3%A1rica%204%2C%2001005%20Vitoria-Gasteiz&z=16&output=embed"></iframe>
+              data-src="https://maps.google.com/maps?q=Hebra%20Psicolog%C3%ADa%2C%20Plaza%20Am%C3%A1rica%204%2C%2001005%20Vitoria-Gasteiz&z=16&output=embed"></iframe>
           </div>
           <div class="place-body">
             <div>
