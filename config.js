@@ -4,7 +4,7 @@
 window.SITE_CONFIG = {
   // Número de WhatsApp con prefijo de país, sin espacios ni "+".
   // Ejemplo: "34600111222"
-  whatsapp: "34XXXXXXXXX",
+  whatsapp: "34660468158",
 
   // Mensaje que aparece ya escrito al abrir WhatsApp
   whatsappMessage: "Hola Ailen, me gustaría hacerte una consulta.",
