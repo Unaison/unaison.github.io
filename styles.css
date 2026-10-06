@@ -77,8 +77,8 @@ i.ph { font-size: 1.2em; line-height: 1; }
 
 .wrap { width: min(1200px, 100% - 32px); margin-inline: auto; }
 .section { padding: clamp(72px, 10vw, 128px) 0; }
-.section-tint { background: var(--bg); }
-main > .section + .section { border-top: 1px solid var(--line); }
+/* Las secciones se separan con aire y con un azul muy pálido alterno, no con líneas */
+.section-tint, .section-block { background: var(--tint); }
 
 .lead { font-size: 1.14rem; color: var(--muted); max-width: 52ch; }
 .lead strong { color: var(--ink); }
@@ -93,10 +93,7 @@ main > .section + .section { border-top: 1px solid var(--line); }
   .link:hover { text-decoration-color: var(--ink); }
 }
 
-mark {
-  background: linear-gradient(transparent 58%, var(--highlight) 58%, var(--highlight) 92%, transparent 92%);
-  color: inherit; padding: 0 .08em;
-}
+mark { background: none; color: var(--ink); font-weight: 600; }
 
 /* ---------- Botones ---------- */
 .btn {
@@ -192,17 +189,23 @@ mark {
 
 /* ---------- Sobre mí ---------- */
 .statement {
-  font-family: var(--display); font-size: clamp(1.5rem, 2.6vw, 2.15rem); line-height: 1.3;
-  max-width: 34ch; margin: .2em 0 0;
+  font-size: clamp(1.2rem, 1.9vw, 1.5rem); line-height: 1.55; color: var(--muted);
+  max-width: 48ch; margin: .4em 0 0;
 }
 .about-cols {
   display: grid; grid-template-columns: 1.1fr .8fr 1.3fr; gap: clamp(28px, 4vw, 56px);
-  margin-top: clamp(48px, 7vw, 88px); padding-top: 36px; border-top: 1px solid var(--line);
+  margin-top: clamp(48px, 7vw, 80px);
 }
-.about-cols h3 { color: var(--muted); font-weight: 500; font-size: .95rem; margin-bottom: 1em; }
-.about-cols p { max-width: 46ch; }
-.values { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
-.values li { font-family: var(--display); font-size: 1.35rem; line-height: 1.2; }
+.about-cols h3 { font-size: 1.1rem; margin-bottom: .9em; }
+.about-cols p { max-width: 46ch; color: var(--muted); }
+.about-cols p strong { color: var(--ink); }
+.values { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.values li {
+  display: inline-flex; align-items: center; gap: .5em;
+  padding: .55em 1em; border-radius: 999px; background: var(--tint);
+  font-weight: 500; font-size: .95rem; line-height: 1.2;
+}
+.values li i { font-size: 1.15rem; }
 .formacion { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-content: start; }
 .formacion h3 { grid-column: 1 / -1; margin-bottom: 0; }
 .formacion figure { margin: 0; display: grid; gap: 12px; align-content: start; }
@@ -219,24 +222,27 @@ mark {
   display: grid; grid-template-columns: 1fr 1.25fr; gap: clamp(20px, 3vw, 32px);
   margin-top: clamp(32px, 5vw, 56px); align-items: stretch;
 }
-.topics h3 { color: var(--muted); font-weight: 500; font-size: .95rem; margin-bottom: 1.4em; }
-.topics dl { margin: 0; display: grid; gap: 26px; }
-.topics dt { font-family: var(--display); font-size: 1.4rem; line-height: 1.2; margin-bottom: 6px; }
-.topics dd { margin: 0; color: var(--muted); max-width: 48ch; }
+.topics h3 { font-size: 1.3rem; margin-bottom: 1.3em; }
+.topics dl { margin: 0; display: grid; gap: 28px; }
+.topics dt {
+  display: flex; align-items: center; gap: 14px;
+  font-weight: 600; font-size: 1.08rem; line-height: 1.3; margin-bottom: 8px;
+}
+.topics dd { margin: 0 0 0 58px; color: var(--muted); max-width: 46ch; }
+/* Iconos finos dentro de un círculo azul pálido */
+.topic-icon {
+  flex: none; width: 44px; height: 44px; border-radius: 50%;
+  display: grid; place-items: center; background: var(--tint); color: var(--navy);
+}
+.topic-icon i { font-size: 1.35rem; }
 
-.topic-feature {
-  background: var(--tint); border-radius: var(--radius);
+.topic-feature, .topic-list {
+  background: var(--surface); border-radius: 24px;
   padding: clamp(28px, 4vw, 44px) clamp(24px, 3.5vw, 40px);
+  box-shadow: 0 1px 2px rgba(0, 6, 40, .04), 0 16px 40px -28px rgba(0, 6, 40, .25);
 }
-.topic-feature h3 span {
-  background: linear-gradient(transparent 55%, var(--highlight) 55%);
-  color: var(--ink); padding: 0 .15em;
-}
-
-.topic-list {
-  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
-  padding: clamp(28px, 4vw, 44px) clamp(24px, 3.5vw, 40px);
-}
+/* El panel de pareja y familia lleva el amarillo de marca en sus iconos */
+.topic-feature .topic-icon { background: var(--yellow); }
 .topic-list dl { grid-template-columns: 1fr 1fr; gap: 28px 32px; }
 .topic-list dl > div:last-child { grid-column: 1 / -1; }
 
@@ -247,13 +253,12 @@ mark {
 }
 .place { display: grid; gap: 20px; }
 .map {
-  aspect-ratio: 4 / 3; border-radius: var(--radius); overflow: hidden;
-  background: var(--tint); border: 1px solid var(--line);
+  aspect-ratio: 4 / 3; border-radius: 24px; overflow: hidden; background: var(--tint);
 }
 .map iframe { width: 100%; height: 100%; border: 0; display: block; }
 .place-body { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
-.place-city { font-size: .92rem; color: var(--muted); margin-bottom: .2em; }
-.place h3 { font-family: var(--display); font-weight: 400; font-size: 1.6rem; margin-bottom: .3em; }
+.place-city { display: flex; align-items: center; gap: .35em; font-size: .95rem; color: var(--muted); margin-bottom: .3em; }
+.place h3 { font-weight: 600; font-size: 1.3rem; margin-bottom: .3em; }
 .place-addr { margin: 0; color: var(--muted); }
 .link-arrow {
   display: inline-flex; align-items: center; gap: .35em; font-weight: 500; text-decoration: none;
@@ -278,8 +283,7 @@ mark {
 @keyframes shimmer { to { background-position: -150% 0; } }
 .cal-fallback {
   display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 24px;
-  border: 1px solid var(--line); border-radius: var(--radius);
-  padding: 28px clamp(20px, 3vw, 36px); background: var(--tint);
+  border-radius: 24px; padding: 28px clamp(20px, 3vw, 36px); background: var(--surface);
 }
 .cal-fallback > i {
   font-size: 1.6rem; color: var(--navy); background: var(--highlight);
@@ -293,17 +297,19 @@ mark {
 .faq-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(32px, 6vw, 96px); align-items: start; }
 .faq-head { position: sticky; top: 120px; }
 .faq-head p { color: var(--muted); }
-.faq details { border-bottom: 1px solid var(--line); }
-.faq details:first-child { border-top: 1px solid var(--line); }
+/* Preguntas como tarjetas suaves, no como filas con líneas */
+.faq { display: grid; gap: 10px; }
+.faq details { background: var(--tint); border-radius: 18px; padding: 0 22px; }
+.faq details[open] { background: #eaeef8; }
 .faq summary {
-  list-style: none; cursor: pointer; padding: 22px 0; display: flex; justify-content: space-between;
+  list-style: none; cursor: pointer; padding: 20px 0; display: flex; justify-content: space-between;
   align-items: center; gap: 24px; font-weight: 500; font-size: 1.08rem;
   -webkit-tap-highlight-color: transparent;
 }
 .faq summary::-webkit-details-marker { display: none; }
 .faq summary i {
   flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center;
-  font-size: 1rem; border: 1px solid var(--line);
+  font-size: 1rem; background: var(--surface); border: 1px solid transparent;
   transition: transform var(--t-ui) var(--ease-out), background-color var(--t-ui) ease, border-color var(--t-ui) ease;
 }
 .faq summary:active i { transform: scale(.92); }
@@ -311,7 +317,7 @@ mark {
   .faq summary:hover i { border-color: var(--ink); }
 }
 .faq details[open] summary i { transform: rotate(45deg); background: var(--highlight); border-color: var(--highlight); color: var(--navy); }
-.faq details p { color: var(--muted); padding-right: 58px; max-width: 62ch; margin: 0; padding-bottom: 22px; }
+.faq details p { color: var(--muted); padding-right: 48px; max-width: 62ch; margin: 0; padding-bottom: 22px; }
 /* Acordeón: abre con altura y opacidad donde el navegador lo permite. */
 .faq details::details-content {
   block-size: 0; opacity: 0; overflow: clip;
@@ -325,8 +331,8 @@ mark {
 .contact-head .btn { margin-top: 8px; }
 .form {
   display: grid; grid-template-columns: 1fr 1fr; gap: 22px 24px;
-  background: var(--surface); padding: clamp(24px, 4vw, 44px);
-  border-radius: var(--radius); border: 1px solid var(--line);
+  background: var(--surface); padding: clamp(24px, 4vw, 44px); border-radius: 24px;
+  box-shadow: 0 1px 2px rgba(0, 6, 40, .04), 0 16px 40px -28px rgba(0, 6, 40, .25);
 }
 .form .full { grid-column: 1 / -1; }
 .field { display: grid; gap: 8px; align-content: start; }
@@ -360,14 +366,14 @@ mark {
 .form-status.error { color: #b3261e; }
 
 /* ---------- Pie ---------- */
-.site-footer { border-top: 1px solid var(--line); padding: 56px 0 32px; font-size: .93rem; color: var(--muted); }
+.site-footer { padding: 56px 0 32px; font-size: .93rem; color: var(--muted); }
 .site-footer .brand-name { font-size: 1.6rem; margin-bottom: .4em; }
 .footer-inner { display: grid; grid-template-columns: 1fr auto; gap: 24px 40px; align-items: end; }
 .footer-inner p { margin: 0; }
 .footer-links { display: flex; flex-wrap: wrap; gap: 24px; }
 .footer-links a { text-decoration: none; transition: color .2s; }
 .footer-links a:hover { color: var(--ink); }
-.copy { grid-column: 1 / -1; padding-top: 24px; margin-top: 8px !important; border-top: 1px solid var(--line); }
+.copy { grid-column: 1 / -1; margin-top: 16px !important; font-size: .88rem; }
 
 /* ---------- WhatsApp flotante ---------- */
 .wa-float {
@@ -499,7 +505,10 @@ mark {
   .brand { gap: 10px; }
   .brand-boat { width: 76px; }
   .brand-name { font-size: 1.7rem; }
-  .about-cols, .formacion, .topic-list dl, .form { grid-template-columns: 1fr; }
+  .about-cols, .topic-list dl, .form { grid-template-columns: 1fr; }
+  .formacion { gap: 12px; }
+  .formacion figcaption { font-size: .88rem; }
+  .topics dd { margin-left: 0; }
   .hero-cta .btn { width: 100%; }
   .footer-inner { grid-template-columns: 1fr; }
   .faq details p { padding-right: 0; }
