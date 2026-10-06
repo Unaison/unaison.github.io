@@ -1,0 +1,13 @@
+# Material de trabajo que no forma parte de la web publicada
+_original/
+capturas/
+publicar/
+.claude/
+
+# Archivos originales sueltos en la raíz (logos, fotos, textos)
+/*.png
+/*.jpg
+/*.txt
+
+# Imágenes que la web ya no usa
+img/barca-amarilla.png
